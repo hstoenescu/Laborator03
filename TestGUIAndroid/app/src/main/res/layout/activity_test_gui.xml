@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ro.pub.cs.systems.eim.lab03.testguiandroid.TestGUIActivity">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navigate_to_secondary_activity"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/navigate_to_secondary_activity"
+        />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:saveEnabled="false"
+        android:enabled="false"
+        android:inputType="number"
+        android:ems="6"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:layout_below="@id/navigate_to_secondary_activity"
+        android:id="@+id/left_edit_text" />
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:saveEnabled="false"
+        android:enabled="false"
+        android:inputType="number"
+        android:ems="6"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:layout_below="@id/navigate_to_secondary_activity"
+        android:id="@+id/right_edit_text" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/left_edit_text"
+        android:layout_alignRight="@id/left_edit_text"
+        android:layout_below="@id/left_edit_text"
+        android:text="@string/press_me"
+        android:id="@+id/press_me_button" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/right_edit_text"
+        android:layout_alignRight="@id/right_edit_text"
+        android:layout_below="@id/right_edit_text"
+        android:id="@+id/press_me_button2"
+        android:text="@string/press_me2"/>
+
+    <EditText
+        android:id="@+id/show_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/press_me_button"
+        android:layout_alignRight="@id/press_me_button"
+        android:layout_below="@+id/press_me_button"
+        android:ems="6"
+        android:enabled="false"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/show_diff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/press_me_button2"
+        android:layout_alignStart="@+id/press_me_button2"
+        android:layout_below="@+id/press_me_button2"
+        android:ems="6"
+        android:enabled="false"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/show_sum_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="SHOW SUM"
+        android:layout_below="@+id/show_diff"
+        android:layout_alignLeft="@+id/navigate_to_secondary_activity"
+        android:layout_alignStart="@+id/navigate_to_secondary_activity"></Button>
+</RelativeLayout>
