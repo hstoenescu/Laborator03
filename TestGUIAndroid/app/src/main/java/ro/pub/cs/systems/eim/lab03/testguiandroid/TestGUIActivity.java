@@ -1,6 +1,9 @@
 package ro.pub.cs.systems.eim.lab03.testguiandroid;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.provider.ContactsContract;
 import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +27,9 @@ public class TestGUIActivity extends AppCompatActivity {
 
     private final static int SEC_ACT_REQ_CODE = 1;
     private Button navigateToSecondaryActivityButton = null;
+
+    /* service status used for Service */
+    private int serviceStatus = Constants.SERVICE_STOPPED;
 
     /* define a listener for BUTTON */
     private ButtonClickListener buttonClickListener = new ButtonClickListener();
@@ -58,9 +64,22 @@ public class TestGUIActivity extends AppCompatActivity {
                     break;
             }
 
+            // if the sum > minimum_nr and the service is stopped, then the method startService()
+            // is invoked
+            if (leftNumberOfClicks + rightNumberOfClicks > Constants.NUMBER_OF_CLICKS_THRESHOLD &&
+                    serviceStatus == Constants.SERVICE_STOPPED) {
+                Intent intent = new Intent(getApplicationContext(), TestGUIService.class);
+                intent.putExtra("firstNumber", leftNumberOfClicks);
+                intent.putExtra("secondNumber", rightNumberOfClicks);
+                getApplicationContext().startService(intent);
+                serviceStatus = Constants.SERVICE_STARTED;
+            }
         }
 
     }
+
+    /* a bcast listener must have also an intent-filter associated */
+    private IntentFilter intentFilter = new IntentFilter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +116,10 @@ public class TestGUIActivity extends AppCompatActivity {
         /* set the listeners for secondary activity button */
         navigateToSecondaryActivityButton = (Button)findViewById(R.id.navigate_to_secondary_activity);
         navigateToSecondaryActivityButton.setOnClickListener(buttonClickListener);
+
+        for (int index = 0; index < Constants.actionTypes.length; index++) {
+            intentFilter.addAction(Constants.actionTypes[index]);
+        }
     }
 
     // ex B2 b) -> we want to save the instance of the state
@@ -125,6 +148,36 @@ public class TestGUIActivity extends AppCompatActivity {
             rightEditText.setText(String.valueOf(0));
         }
 
+    }
+
+    /* Broadcast */
+    private MessageBroadcastReceiver messageBroadcastReceiver = new MessageBroadcastReceiver();
+    private class MessageBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive (Context context, Intent intent) {
+            Log.d("[Message]", intent.getStringExtra("message"));
+        }
+    }
+
+    /* activate/deactivate the listener for intents */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(messageBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        unregisterReceiver(messageBroadcastReceiver);
+        super.onPause();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        Intent intent = new Intent(this, TestGUIService.class);
+        stopService(intent);
+        super.onDestroy();
     }
 
     // TEST ex B2 -> load the app (onCreate(), onStart() and onResume() methods are called)

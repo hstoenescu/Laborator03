@@ -9,25 +9,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".TestGUIActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".TestGUIActivitySecondary"
-            android:label="@string/navigate_to_secondary_activity"
-        >
+            android:label="@string/navigate_to_secondary_activity">
             <intent-filter>
-                <action android:name="ro.pub.cs.systems.eim.intent.action.PracticalTest01SecondaryActivity"/>
+                <action android:name="ro.pub.cs.systems.eim.intent.action.PracticalTest01SecondaryActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
-
         </activity>
+
+        <service
+            android:name=".TestGUIService"
+            android:enabled="true"
+            android:exported="false"></service>
     </application>
 
 </manifest>
