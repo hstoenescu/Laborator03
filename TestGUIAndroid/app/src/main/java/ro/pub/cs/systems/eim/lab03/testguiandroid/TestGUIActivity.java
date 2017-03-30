@@ -1,7 +1,9 @@
 package ro.pub.cs.systems.eim.lab03.testguiandroid;
 
+import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,6 +56,7 @@ public class TestGUIActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test_gui);
 
         /* EDIT_TEXT */
+        /* references of the graphic controller */
         /* get references to the elements defined in /res/layout/activity_test_gui */
         leftEditText = (EditText)findViewById(R.id.left_edit_text);
         rightEditText = (EditText)findViewById(R.id.right_edit_text);
@@ -79,4 +82,37 @@ public class TestGUIActivity extends AppCompatActivity {
         rightButton.setOnClickListener(buttonClickListener);
         showSumButton.setOnClickListener(buttonClickListener);
     }
+
+    // ex B2 b) -> we want to save the instance of the state
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        // in order to save the instance, we need to add a KEY and a VALUE to the Bundle variable
+        savedInstanceState.putString("leftCount", leftEditText.getText().toString());
+        savedInstanceState.putString("rightCount", rightEditText.getText().toString());
+    }
+
+    // after the call of onCreate(), we need to access firstly onRestoreInstanceState, because we
+    // may have some values saved
+    @Override
+    protected void onRestoreInstanceState (Bundle savedInstanceState) {
+        // if the key exists, then add the saved value. else initialise with 0
+        if (savedInstanceState.containsKey("leftCount")) {
+            leftEditText.setText(savedInstanceState.getString("leftCount"));
+        } else {
+            leftEditText.setText(String.valueOf(0));
+        }
+
+        // same for the right edit text
+        if (savedInstanceState.containsKey("rightCount")){
+            rightEditText.setText(savedInstanceState.getString("rightCount"));
+        } else {
+            rightEditText.setText(String.valueOf(0));
+        }
+
+    }
+
+    // TEST ex B2 -> load the app (onCreate(), onStart() and onResume() methods are called)
+    // -> press menu on phone
+    // -> AndroidMonitor > terminate app
+    // -> load the app again (it should work :) )
 }

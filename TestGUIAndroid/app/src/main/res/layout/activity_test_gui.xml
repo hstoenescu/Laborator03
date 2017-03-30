@@ -57,6 +57,7 @@
 
     <EditText
         android:id="@+id/show_sum"
+        android:saveEnabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/press_me_button"
@@ -74,6 +75,7 @@
         android:layout_alignStart="@+id/press_me_button2"
         android:layout_below="@+id/press_me_button2"
         android:ems="6"
+        android:saveEnabled="false"
         android:enabled="false"
         android:inputType="number" />
 
