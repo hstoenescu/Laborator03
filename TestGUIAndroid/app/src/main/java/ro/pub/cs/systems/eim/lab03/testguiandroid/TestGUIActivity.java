@@ -1,5 +1,7 @@
 package ro.pub.cs.systems.eim.lab03.testguiandroid;
 
+import android.content.Intent;
+import android.provider.ContactsContract;
 import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class TestGUIActivity extends AppCompatActivity {
 
@@ -18,6 +21,9 @@ public class TestGUIActivity extends AppCompatActivity {
     private Button leftButton = null;
     private Button rightButton = null;
     private  Button showSumButton = null;
+
+    private final static int SEC_ACT_REQ_CODE = 1;
+    private Button navigateToSecondaryActivityButton = null;
 
     /* define a listener for BUTTON */
     private ButtonClickListener buttonClickListener = new ButtonClickListener();
@@ -43,7 +49,13 @@ public class TestGUIActivity extends AppCompatActivity {
                     int sum = rightNumberOfClicks+leftNumberOfClicks;
                     sumEditText.setText(String.valueOf(sum));
                     break;
-
+                // implement INTENT for sec button
+                case R.id.navigate_to_secondary_activity:
+                    Intent intent = new Intent(getApplicationContext(), TestGUIActivitySecondary.class);
+                    int nrClicks = Integer.parseInt(leftEditText.getText().toString()) + Integer.parseInt(rightEditText.getText().toString());
+                    intent.putExtra("numberOfClicks", nrClicks);
+                    startActivityForResult(intent, SEC_ACT_REQ_CODE);
+                    break;
             }
 
         }
@@ -81,6 +93,10 @@ public class TestGUIActivity extends AppCompatActivity {
         leftButton.setOnClickListener(buttonClickListener);
         rightButton.setOnClickListener(buttonClickListener);
         showSumButton.setOnClickListener(buttonClickListener);
+
+        /* set the listeners for secondary activity button */
+        navigateToSecondaryActivityButton = (Button)findViewById(R.id.navigate_to_secondary_activity);
+        navigateToSecondaryActivityButton.setOnClickListener(buttonClickListener);
     }
 
     // ex B2 b) -> we want to save the instance of the state
@@ -115,4 +131,12 @@ public class TestGUIActivity extends AppCompatActivity {
     // -> press menu on phone
     // -> AndroidMonitor > terminate app
     // -> load the app again (it should work :) )
+
+    // onActivityResult - called automatically when returning to this activity
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
+        if (requestCode == SEC_ACT_REQ_CODE) {
+            Toast.makeText(this, "The secondary activity returned with " +resultCode, Toast.LENGTH_LONG).show();
+        }
+    }
 }

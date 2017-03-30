@@ -3,4 +3,6 @@
     <string name="navigate_to_secondary_activity">Navigate to secondary activity</string>
     <string name="press_me">Press ME!!!</string>
     <string name="press_me2">NO!!Press me!!!</string>
+    <string name="OK">OK</string>
+    <string name="Cancel">Cancel</string>
 </resources>
